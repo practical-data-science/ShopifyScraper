@@ -4,9 +4,9 @@ Description: Scrapes products from a Shopify store by parsing products.json and 
 Author: Matt Clarke
 """
 
-import requests
 import json
 import pandas as pd
+import requests
 
 
 def get_json(url, page):
@@ -78,5 +78,33 @@ def get_products(url):
         else:
             df = pd.concat([df, products_dict], ignore_index=True)
             page += 1
+
+    df['url'] = f"{url}/products/" + df['handle']
     return df
+
+
+def get_variants(products):
+    """Get variants from a list of products.
+
+    Args:
+        products (pd.DataFrame): Pandas dataframe of products from get_products()
+
+    Returns:
+        variants (pd.DataFrame): Pandas dataframe of variants
+    """
+
+    products['id'].astype(int)
+    df_variants = pd.DataFrame()
+
+    for row in products.itertuples(index='True'):
+
+        for variant in getattr(row, 'variants'):
+            df_variants = pd.concat([df_variants, pd.DataFrame.from_records(variant, index=[0])])
+
+    df_variants['id'].astype(int)
+    df_variants['product_id'].astype(int)
+    df_parent_data = products[['id', 'title', 'vendor']]
+    df_parent_data = df_parent_data.rename(columns={'title': 'parent_title', 'id': 'parent_id'})
+    df_variants = df_variants.merge(df_parent_data, left_on='product_id', right_on='parent_id')
+    return df_variants
 
