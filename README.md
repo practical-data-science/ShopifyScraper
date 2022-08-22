@@ -4,6 +4,13 @@ ShopifyScraper is a Python package that scrapes data from Shopify. Unlike a regu
 
 When the commands below are run, ShopifyScraper will extract the store inventory and save the products and product variants to Pandas dataframes, from where you can access or analyse the data or write it to CSV or database. 
 
+### Installation
+To install ShopifyScraper, run the following command:
+
+```bash
+pip3 install git+https://github.com/practical-data-science/ShopifyScraper.git
+```
+
 ### Usage
 
 ```python
