@@ -15,8 +15,8 @@ setup(
     long_description_content_type='text/markdown',
     author='Matt Clarke',
     author_email='matt@practicaldatascience.co.uk',
-    url='https://github.com/practicaldatascience/ShopifyScraper',
-    download_url='https://github.com/practicaldatascience/ShopifyScraper/archive/master.zip',
+    url='https://github.com/practical-data-science/ShopifyScraper',
+    download_url='https://github.com/practical-data-science/ShopifyScraper/archive/master.zip',
     keywords=['python', 'requests', 'pandas', 'shopify', 'scraping'],
     classifiers=[
         'Development Status :: 3 - Alpha',
