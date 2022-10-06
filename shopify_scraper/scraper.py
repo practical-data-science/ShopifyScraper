@@ -108,3 +108,35 @@ def get_variants(products):
     df_variants = df_variants.merge(df_parent_data, left_on='product_id', right_on='parent_id')
     return df_variants
 
+
+def json_list_to_df(df, col):
+    """Return a Pandas dataframe based on a column that contains a list of JSON objects.
+
+    Args:
+        df (Pandas dataframe): The dataframe to be flattened.
+        col (str): The name of the column that contains the JSON objects.
+
+    Returns:
+        Pandas dataframe: A new dataframe with the JSON objects expanded into columns.
+    """
+
+    rows = []
+    for index, row in df[col].iteritems():
+        for item in row:
+            rows.append(item)
+    df = pd.DataFrame(rows)
+    return df
+
+
+def get_images(df_products):
+    """Get images from a list of products.
+
+    Args:
+        df_products (pd.DataFrame): Pandas dataframe of products from get_products()
+
+    Returns:
+        images (pd.DataFrame): Pandas dataframe of images
+    """
+
+    return json_list_to_df(df_products, 'images')
+

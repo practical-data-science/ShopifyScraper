@@ -8,7 +8,7 @@ with open(path.join(this_directory, 'README.md'), encoding='utf-8') as f:
 setup(
     name='ShopifyScraper',
     packages=['shopify_scraper'],
-    version='0.001',
+    version='0.002',
     license='MIT',
     description='ShopifyScraper is a Python package that scrapes Shopify products and variants to Pandas dataframes.',
     long_description=long_description,
