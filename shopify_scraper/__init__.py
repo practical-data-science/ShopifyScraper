@@ -7,4 +7,4 @@ __all__ = [
 ]
 
 # excluded from __all__:
-# 'json_list_to_df', 'to_df'
+# 'flatten_column_to_dataframe', 'to_df'

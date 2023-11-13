@@ -77,7 +77,6 @@ def get_variants(products: pd.DataFrame) -> pd.DataFrame:
     df_variants = pd.DataFrame()
 
     for row in products.itertuples(index='True'):
-
         for variant in getattr(row, 'variants'):
             df_variants = pd.concat([df_variants, pd.DataFrame.from_records(variant, index=[0])])
 
@@ -88,7 +87,7 @@ def get_variants(products: pd.DataFrame) -> pd.DataFrame:
     df_variants = df_variants.merge(df_product_data, left_on='product_id', right_on='product_id')
     return df_variants
 
-def json_list_to_df(df: pd.DataFrame, col: str) -> pd.DataFrame:
+def flatten_column_to_dataframe(df: pd.DataFrame, col: str) -> pd.DataFrame:
     """Return a Pandas dataframe based on a column that contains a list of JSON objects.
 
     Args:
@@ -99,12 +98,8 @@ def json_list_to_df(df: pd.DataFrame, col: str) -> pd.DataFrame:
         Pandas dataframe: A new dataframe with the JSON objects expanded into columns.
     """
 
-    rows = []
-    for index, row in df[col].iteritems(): # FIXME: support removed in Pandas 2
-        for item in row:
-            rows.append(item)
-    df = pd.DataFrame(rows)
-    return df
+    rows = [item for row in df[col] for item in row]
+    return pd.DataFrame(rows)
 
 def get_images(df_products: pd.DataFrame) -> pd.DataFrame:
     """Get images from a list of products.
@@ -116,4 +111,4 @@ def get_images(df_products: pd.DataFrame) -> pd.DataFrame:
         images (pd.DataFrame): Pandas dataframe of images
     """
 
-    return json_list_to_df(df_products, 'images')
+    return flatten_column_to_dataframe(df_products, 'images')
