@@ -83,9 +83,9 @@ def get_variants(products: pd.DataFrame) -> pd.DataFrame:
 
     df_variants['id'].astype(int)
     df_variants['product_id'].astype(int)
-    df_parent_data = products[['id', 'title', 'vendor']]
-    df_parent_data = df_parent_data.rename(columns={'title': 'parent_title', 'id': 'parent_id'})
-    df_variants = df_variants.merge(df_parent_data, left_on='product_id', right_on='parent_id')
+    df_product_data = products[['id', 'title', 'vendor']]
+    df_product_data = df_product_data.rename(columns={'title': 'product_title', 'id': 'product_id'})
+    df_variants = df_variants.merge(df_product_data, left_on='product_id', right_on='product_id')
     return df_variants
 
 def json_list_to_df(df: pd.DataFrame, col: str) -> pd.DataFrame:

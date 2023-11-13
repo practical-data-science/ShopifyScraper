@@ -1,6 +1,6 @@
 venv
 .idea
 example.py
-parents.csv
-children.csv
+products.csv
+variants.csv
 images.csv

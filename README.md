@@ -18,19 +18,21 @@ from shopify_scraper import scraper
 
 url = "https://yourshopifydomain.com"
 
-parents = scraper.get_products(url)
-parents.to_csv('parents.csv', index=False)
-print('Parents: ', len(parents))
+products = scraper.get_products(url)
+products.to_csv('products.csv', index=False)
+print('Products: count=', len(products))
 
 
-children = scraper.get_variants(parents)
-children.to_csv('children.csv', index=False)
-print('Children: ', len(children))
+variants = scraper.get_variants(products)
+variants.to_csv('variants.csv', index=False)
+print('Variants: count=', len(variants))
 
 
-images = scraper.get_images(parents)
+images = scraper.get_images(products)
 images.to_csv('images.csv', index=False)
-print('Images: ', len(images))
-
+print('Images: count=', len(images))
 ```
 
+Note that variants has a many-to-one relationship with products, ON variant.product_id = product.id.
+
+Note that images has a many-to-one relationship with products, ON image.product_id = product.id.
