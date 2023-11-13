@@ -11,6 +11,15 @@ To install ShopifyScraper, run the following command:
 pip3 install git+https://github.com/practical-data-science/ShopifyScraper.git
 ```
 
+#### Development
+To install ShopifyScraper in development mode, run the following command:
+
+```bash
+git clone https://github.com/practical-data-science/ShopifyScraper.git
+cd ShopifyScraper
+pip3 install -e .
+```
+
 ### Usage
 
 ```python
