@@ -8,8 +8,7 @@ import json
 import pandas as pd
 import requests
 
-
-def get_json(url, page):
+def get_json(url: str, page: int) -> str:
     """
     Get Shopify products.json from a store URL.
 
@@ -38,8 +37,7 @@ def get_json(url, page):
     except requests.exceptions.RequestException as error:
         print("Error: ", error)
 
-
-def to_df(products_json):
+def to_df(products_json: str) -> pd.DataFrame:
     """
     Convert products.json to a pandas DataFrame.
 
@@ -56,8 +54,7 @@ def to_df(products_json):
     except Exception as e:
         print(e)
 
-
-def get_products(url):
+def get_products(url: str) -> pd.DataFrame:
     """
     Get all products from a store.
 
@@ -82,9 +79,8 @@ def get_products(url):
     df['url'] = f"{url}/products/" + df['handle']
     return df
 
-
-def get_variants(products):
-    """Get variants from a list of products.
+def get_variants(products: pd.DataFrame) -> pd.DataFrame:
+    """Get variants from a table of products.
 
     Args:
         products (pd.DataFrame): Pandas dataframe of products from get_products()
@@ -108,8 +104,7 @@ def get_variants(products):
     df_variants = df_variants.merge(df_parent_data, left_on='product_id', right_on='parent_id')
     return df_variants
 
-
-def json_list_to_df(df, col):
+def json_list_to_df(df: pd.DataFrame, col: str) -> pd.DataFrame:
     """Return a Pandas dataframe based on a column that contains a list of JSON objects.
 
     Args:
@@ -121,14 +116,13 @@ def json_list_to_df(df, col):
     """
 
     rows = []
-    for index, row in df[col].iteritems():
+    for index, row in df[col].iteritems(): # FIXME: support removed in Pandas 2
         for item in row:
             rows.append(item)
     df = pd.DataFrame(rows)
     return df
 
-
-def get_images(df_products):
+def get_images(df_products: pd.DataFrame) -> pd.DataFrame:
     """Get images from a list of products.
 
     Args:
@@ -139,4 +133,3 @@ def get_images(df_products):
     """
 
     return json_list_to_df(df_products, 'images')
-
