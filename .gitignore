@@ -5,6 +5,8 @@ products.csv
 variants.csv
 images.csv
 
+**/__pycache__/
+
 # Distribution / packaging
 .Python
 build/
