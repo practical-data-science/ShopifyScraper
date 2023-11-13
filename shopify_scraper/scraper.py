@@ -19,23 +19,10 @@ def get_json(url: str, page: int) -> str:
         products_json: Products.json from the store.
     """
 
-    try:
-        response = requests.get(f'{url}/products.json?limit=250&page={page}', timeout=5)
-        products_json = response.text
-        response.raise_for_status()
-        return products_json
-
-    except requests.exceptions.HTTPError as error_http:
-        print("HTTP Error:", error_http)
-
-    except requests.exceptions.ConnectionError as error_connection:
-        print("Connection Error:", error_connection)
-
-    except requests.exceptions.Timeout as error_timeout:
-        print("Timeout Error:", error_timeout)
-
-    except requests.exceptions.RequestException as error:
-        print("Error: ", error)
+    response = requests.get(f'{url}/products.json?limit=250&page={page}', timeout=5)
+    products_json = response.text
+    response.raise_for_status()
+    return products_json
 
 def to_df(products_json: str) -> pd.DataFrame:
     """
@@ -47,12 +34,9 @@ def to_df(products_json: str) -> pd.DataFrame:
         df: Pandas DataFrame of the products.json.
     """
 
-    try:
-        products_dict = json.loads(products_json)
-        df = pd.DataFrame.from_dict(products_dict['products'])
-        return df
-    except Exception as e:
-        print(e)
+    products_dict = json.loads(products_json)
+    df = pd.DataFrame.from_dict(products_dict['products'])
+    return df
 
 def get_products(url: str) -> pd.DataFrame:
     """
