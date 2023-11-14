@@ -24,7 +24,7 @@ def get_json(url: str, page: int) -> str:
     response.raise_for_status()
     return products_json
 
-def to_df(products_json: str) -> pd.DataFrame:
+def _products_json_to_df(products_json: str) -> pd.DataFrame:
     """
     Convert products.json to a pandas DataFrame.
 
@@ -52,7 +52,7 @@ def get_products(url: str) -> pd.DataFrame:
 
     while results:
         products_json = get_json(url, page)
-        products_dict = to_df(products_json)
+        products_dict = _products_json_to_df(products_json)
 
         if len(products_dict) == 0:
             break
@@ -83,11 +83,11 @@ def get_variants(products: pd.DataFrame) -> pd.DataFrame:
     df_variants['id'].astype(int)
     df_variants['product_id'].astype(int)
     df_product_data = products[['id', 'title', 'vendor']]
-    df_product_data = df_product_data.rename(columns={'title': 'product_title', 'id': 'product_id'})
-    df_variants = df_variants.merge(df_product_data, left_on='product_id', right_on='product_id')
+    df_product_data = df_product_data.rename(columns={'title': 'product_title', 'id': 'product_id', 'vendor': 'product_vendor'})
+    df_variants = df_variants.merge(df_product_data, left_on='product_id', right_on='product_id', validate='m:1')
     return df_variants
 
-def flatten_column_to_dataframe(df: pd.DataFrame, col: str) -> pd.DataFrame:
+def _flatten_column_to_dataframe(df: pd.DataFrame, col: str) -> pd.DataFrame:
     """Return a Pandas dataframe based on a column that contains a list of JSON objects.
 
     Args:
@@ -111,4 +111,4 @@ def get_images(df_products: pd.DataFrame) -> pd.DataFrame:
         images (pd.DataFrame): Pandas dataframe of images
     """
 
-    return flatten_column_to_dataframe(df_products, 'images')
+    return _flatten_column_to_dataframe(df_products, 'images')
